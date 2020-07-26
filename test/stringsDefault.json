@@ -1,0 +1,18 @@
+[
+  {
+    "id": "example_key",
+    "translation": "example string"
+  },
+  {
+    "id": "example_key_2",
+    "translation": "example string 2"
+  },
+  {
+    "id": "description_add_comment",
+    "translation": "Add comment"
+  },
+  {
+    "id": "user_added_string",
+    "translation": "This hasn't been translated yet, but was added during development"
+  }
+]

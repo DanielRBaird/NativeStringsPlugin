@@ -1,0 +1,14 @@
+[
+  {
+    "id": "example_key",
+    "translation": "exemple de chaîne"
+  },
+  {
+    "id": "example_key_2",
+    "translation": "exemple chaîne 2"
+  },
+  {
+    "id": "description_add_comment",
+    "translation": "Ajouter un commentaire"
+  }
+]
