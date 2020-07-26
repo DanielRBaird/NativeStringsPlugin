@@ -14,5 +14,9 @@
   {
     "id": "user_added_string",
     "translation": "This hasn't been translated yet, but was added during development"
+  },
+  {
+    "id": "home_page_sign_in",
+    "translation": "Sign in"
   }
 ]
