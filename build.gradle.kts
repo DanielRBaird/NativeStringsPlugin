@@ -6,12 +6,21 @@ version = "1.0-SNAPSHOT"
 plugins {
     `java-gradle-plugin`
     kotlin("jvm") version "1.4.0-rc"
+    id("com.gradle.plugin-publish") version "0.10.1"
+
+}
+
+pluginBundle {
+    vcsUrl = "https://github.com/DanielRBaird/NativeStringsPlugin"
+    tags = listOf("localization", "kotlin", "kotlin native", "kotlin/native")
 }
 
 gradlePlugin {
     plugins {
         create("nativeStringsPlugin") {
             id = "com.danielrbaird.nativeStrings"
+            displayName = "NativeStrings"
+            description = "A simple plugin for generating strongly typed localized strings in Kotlin Native"
             implementationClass = "com.danielrbaird.nativeStrings.NativeStrings"
         }
     }
