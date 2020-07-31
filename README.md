@@ -56,3 +56,11 @@ and
 
 `StringsImpl.kt` which will contain an implementation for every language that you support.
 
+## Future work
+
+This is pretty bare bones right now, and I hope to improve it as I have time. Here is the list of things i'm currently planning to try to support:
+
+- Simple formatted strings that take another string or number as input.
+- Different formats for the strings json file.
+- Support for automatically generating an enum of the different localizations availble.
+
