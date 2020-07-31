@@ -7,16 +7,16 @@ import java.io.File
 
 open class GenerateImplementationsTask : DefaultTask() {
 
-    private var destination: Any? = null    // The main output folder
-    private var input: Any? = null          // The primary input file
-    private var localesFile: Any? = null    // The locales txt file
-    private var jsonFolder: Any? = null     // The folder containing all of the json for the strings
+    private var destination: String? = null    // The main output folder
+    private var input: String? = null          // The primary input file
+    private var localesFile: String? = null    // The locales txt file
+    private var jsonFolder: String? = null     // The folder containing all of the json for the strings
 
     fun setDestination(destination: String) {
         this.destination = destination
     }
 
-    @OutputFile
+    @OutputDirectory
     fun getDestination(): File {
         return project.file(destination!!)
     }

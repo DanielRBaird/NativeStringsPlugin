@@ -3,6 +3,7 @@ package com.danielrbaird.nativeStrings
 import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -15,8 +16,7 @@ open class GenerateInterfacesTask : DefaultTask() {
         this.destination = destination
     }
 
-    @OutputFile
-    fun getDestination(): File {
+    private fun getDestination(): File {
         return project.file(destination!!)
     }
 

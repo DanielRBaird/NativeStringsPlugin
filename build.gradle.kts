@@ -1,16 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "com.danielrbaird.nativeStrings"
-version = "1.0-SNAPSHOT"
+version = "1.0.2-SNAPSHOT"
 
 plugins {
     `java-gradle-plugin`
     kotlin("jvm") version "1.4.0-rc"
-    id("com.gradle.plugin-publish") version "0.10.1"
+    id("com.gradle.plugin-publish") version "0.12.0"
 
 }
 
 pluginBundle {
+    website = "https://github.com/DanielRBaird/NativeStringsPlugin"
     vcsUrl = "https://github.com/DanielRBaird/NativeStringsPlugin"
     tags = listOf("localization", "kotlin", "kotlin native", "kotlin/native")
 }
