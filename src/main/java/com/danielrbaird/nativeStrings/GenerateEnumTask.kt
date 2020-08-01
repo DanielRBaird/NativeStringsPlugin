@@ -1,11 +1,16 @@
 package com.danielrbaird.nativeStrings
 
-import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.*
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
 import java.io.File
 
-open class GenerateInterfacesTask : DefaultTask() {
+/**
+ * This will generate the enum of the different locale options available.
+ */
+open class GenerateEnumTask : DefaultTask() {
     private var destinationFolder: String? = null
     private var inputFolder: String? = null
 
@@ -36,27 +41,19 @@ open class GenerateInterfacesTask : DefaultTask() {
         val outputDir = getDestinationFolder()
         outputDir.mkdirs()
 
-        // This should already exist.
-        val inputFolder = getInputFolder()
-        val defaultStringsFile = FileHelper.getDefaultStringsFile(inputFolder)
+        val locales = FileHelper.getLocales(getInputFolder())
 
-        val outputFile = File(outputDir, "Strings.kt")
+        val outputFile = File(outputDir, FileHelper.enumFileName)
         val stringBuilder = kotlin.text.StringBuilder()
 
-        // Grab the json text out of the strings file, and get the array.
-        val json: ArrayList<Map<String, Any>> = JsonSlurper().parseText(defaultStringsFile.readText()) as ArrayList<Map<String, Any>>
-
         stringBuilder.appendln("package $packageName\n")
-        stringBuilder.appendln("internal interface Strings {")
+        stringBuilder.appendln("internal enum class Locale {")
 
-        // This dictionary will contain a map of all of the ids, and the translation for the default language.
-        for (stringObject in json) {
-            val id = stringObject["id"] as String
-            stringBuilder.appendln("    val $id: String")
+        for (locale in locales) {
+            stringBuilder.append("    $locale,")
         }
-
-        stringBuilder.appendln("}")
-
+        stringBuilder.removeSuffix(",")
+        stringBuilder.append("}")
         outputFile.writeText(stringBuilder.toString())
     }
 }

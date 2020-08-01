@@ -7,17 +7,28 @@ class NativeStrings : Plugin<Project> {
     override fun apply(project: Project) {
         val extension = project.extensions.create("nativeStringsPlugin", NativeStringsPluginExtension::class.java)
 
-        project.tasks.register("generateInterface", GenerateInterfacesTask::class.java) { task ->
-            task.setInput(extension.input)
-            task.setDestination(extension.destination)
+        project.tasks.register("nativeStringsGenerateInterface", GenerateInterfacesTask::class.java) { task ->
+            task.setInputFolder(extension.inputFolder)
+            task.setDestinationFolder(extension.destinationFolder)
+            task.packageName = extension.packageName
         }
 
-        project.tasks.register("generateImplementation", GenerateImplementationsTask::class.java) { task ->
-            task.dependsOn("generateInterface")
-            task.setInput(extension.input)
-            task.setDestination(extension.destination)
-            task.setLocales(extension.localesFile)
-            task.setJsonFolder(extension.jsonFolder)
+        project.tasks.register("nativeStringsGenerateImplementation", GenerateImplementationsTask::class.java) { task ->
+            task.setInputFolder(extension.inputFolder)
+            task.setDestinationFolder(extension.destinationFolder)
+            task.packageName = extension.packageName
+        }
+
+        project.tasks.register("nativeStringsGenerateEnum", GenerateEnumTask::class.java) { task ->
+            task.setInputFolder(extension.inputFolder)
+            task.setDestinationFolder(extension.destinationFolder)
+            task.packageName = extension.packageName
+        }
+
+        project.tasks.register("nativeStringsGenerateAll") { task ->
+            task.dependsOn("nativeStringsGenerateInterface")
+            task.dependsOn("nativeStringsGenerateImplementation")
+            task.dependsOn("nativeStringsGenerateEnum")
         }
     }
 }
