@@ -25,7 +25,7 @@ open class GenerateInterfacesTask : DefaultTask() {
         this.inputFolder = inputFolder
     }
 
-    @InputFile
+    @InputDirectory
     fun getInputFolder(): File {
         return project.file(inputFolder!!)
     }
