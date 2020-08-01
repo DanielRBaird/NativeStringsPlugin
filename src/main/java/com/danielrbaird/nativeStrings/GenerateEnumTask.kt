@@ -48,10 +48,10 @@ open class GenerateEnumTask : DefaultTask() {
         stringBuilder.appendln("internal enum class Locale {")
 
         for (locale in locales) {
-            stringBuilder.append("    $locale,")
+            stringBuilder.appendln("    $locale,")
         }
         stringBuilder.removeSuffix(",")
-        stringBuilder.append("}")
+        stringBuilder.appendln("}")
         outputFile.writeText(stringBuilder.toString())
     }
 }
