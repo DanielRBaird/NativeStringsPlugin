@@ -14,5 +14,5 @@ open class NativeStringsPluginExtension {
     /**
      * Package name that we want to add to the files that we generate.
      */
-    val packageName: String = ""
+    var packageName: String = ""
 }
