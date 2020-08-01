@@ -38,7 +38,8 @@ open class GenerateEnumTask : DefaultTask() {
         val outputDir = getDestinationFolder()
         outputDir.mkdirs()
 
-        val locales = FileHelper.getLocales(getInputFolder())
+        val localesFile = FileHelper.getLocalesFile(getInputFolder())
+        val locales = FileHelper.getLocales(localesFile)
 
         val outputFile = File(outputDir, FileHelper.enumFileName)
         val stringBuilder = kotlin.text.StringBuilder()
