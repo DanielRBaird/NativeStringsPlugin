@@ -48,14 +48,13 @@ open class GenerateEnumTask : DefaultTask() {
         stringBuilder.appendln("internal enum class Locale {")
 
         for (locale in locales.withIndex()) {
-            locale.index
-            stringBuilder.appendln("    ${locale.value}")
+            stringBuilder.append("    ${locale.value}")
 
             // Add a comma for all but the last item.
             if (locale.index < locales.size - 1) {
-                stringBuilder.append(",")
+                stringBuilder.appendln(",")
             } else {
-                stringBuilder.append(";")
+                stringBuilder.appendln(";")
             }
         }
 
