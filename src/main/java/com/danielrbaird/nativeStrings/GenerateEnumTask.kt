@@ -47,10 +47,17 @@ open class GenerateEnumTask : DefaultTask() {
         stringBuilder.appendln("package $packageName\n")
         stringBuilder.appendln("internal enum class Locale {")
 
-        for (locale in locales) {
-            stringBuilder.appendln("    $locale,")
+        for (locale in locales.withIndex()) {
+            locale.index
+            stringBuilder.appendln("    ${locale.value}")
+
+            // Add a comma for all but the last item.
+            if (locale.index < locales.size - 1) {
+                stringBuilder.append(",")
+            } else {
+                stringBuilder.append(";")
+            }
         }
-        stringBuilder.removeSuffix(",")
 
         // Create the companion object that can create the various strings implementations.
         stringBuilder.appendln()
@@ -58,9 +65,9 @@ open class GenerateEnumTask : DefaultTask() {
         stringBuilder.appendln("        fun localizedStrings(locale: Locale): Strings {")
         stringBuilder.appendln("            return when (locale) {")
         for (locale in locales) {
-            stringBuilder.appendln("                Locale.$locale -> {$locale}Strings(),")
+            stringBuilder.appendln("                Locale.$locale -> ${locale}Strings()")
         }
-        stringBuilder.removeSuffix(",")
+
         stringBuilder.appendln("            }") // Close the when
         stringBuilder.appendln("        }") // Close the method
         stringBuilder.appendln("    }") // Close the companion object
