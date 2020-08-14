@@ -41,15 +41,15 @@ internal object FileHelper {
         return getStringsFileForLocale(directory, defaultLocale)
     }
 
-    // Gets the list of file names and files that currently exist.
+    // Gets the locale files that contain the json for the various locales.
+    // Will also include files that have not yet been created. All the strings
+    // will be treated as missing, and will use the default language strings.
     internal fun getLocaleFiles(directory: File, locales: List<String>): List<LocaleFile> {
         // Get the list of locale files that already exist.
         val localeFiles = mutableListOf<LocaleFile>()
         for (locale in locales) {
             val stringsJsonFile = getStringsFileForLocale(directory, locale)
-            if (stringsJsonFile.exists()) {
-                localeFiles.add(LocaleFile(file = stringsJsonFile, name = locale))
-            }
+            localeFiles.add(LocaleFile(file = stringsJsonFile, name = locale))
         }
 
         return localeFiles
