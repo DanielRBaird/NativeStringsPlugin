@@ -61,6 +61,8 @@ open class GenerateImplementationsTask : DefaultTask() {
         // This gets the list of all the keys so that we can make sure we account for all of them with each of the languages.
         val allKeys = FileHelper.getSetOfIds(defaultLanguageFile)
 
+        stringBuilder.appendln("package $packageName\n")
+
         for (localeFile in localeFiles) {
             val unusedKeys = allKeys.toMutableSet()
 
@@ -71,7 +73,6 @@ open class GenerateImplementationsTask : DefaultTask() {
                 ArrayList()
             }
 
-            stringBuilder.appendln("package $packageName\n")
             stringBuilder.appendln("internal class ${localeFile.name}Strings : Strings {")
 
             for (stringObject in json) {
@@ -88,6 +89,7 @@ open class GenerateImplementationsTask : DefaultTask() {
             }
 
             stringBuilder.appendln("}")
+            stringBuilder.appendln()
         }
 
         implFile.writeText(stringBuilder.toString())
