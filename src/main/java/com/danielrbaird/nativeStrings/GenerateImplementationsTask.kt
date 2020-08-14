@@ -65,7 +65,11 @@ open class GenerateImplementationsTask : DefaultTask() {
             val unusedKeys = allKeys.toMutableSet()
 
             // Grab the json text out of the string file and get the array.
-            val json: ArrayList<Map<String, Any>> = JsonSlurper().parseText(localeFile.file.readText()) as ArrayList<Map<String, Any>>
+            val json: ArrayList<Map<String, Any>> = if (localeFile.file.exists()) {
+                JsonSlurper().parseText(localeFile.file.readText()) as ArrayList<Map<String, Any>>
+            } else {
+                ArrayList()
+            }
 
             stringBuilder.appendln("package $packageName\n")
             stringBuilder.appendln("internal class ${localeFile.name}Strings : Strings {")
