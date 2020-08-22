@@ -24,6 +24,10 @@ You wil also need to create your primary strings file. Example:
   {
     "id": "example_key",
     "translation": "example string"
+  },
+  {
+    "id": "example_param_key",
+    "translation": "example string with param {{.someParam}}"
   }
 ]
 ```
