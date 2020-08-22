@@ -51,8 +51,19 @@ open class GenerateInterfacesTask : DefaultTask() {
 
         // This dictionary will contain a map of all of the ids, and the translation for the default language.
         for (stringObject in json) {
-            val id = stringObject["id"] as String
-            stringBuilder.appendln("    val $id: String")
+            // TODO: At this point we don't handle pluralization, so it is expected that the translation is just a string.
+            // this is something we need to support eventually.
+
+            val id = stringObject[FileHelper.idKey] as String
+            val translation = stringObject[FileHelper.translationKey] as String
+            val paramNames = FileHelper.findParamNames(translation)
+
+            if (paramNames.isEmpty()) {
+                stringBuilder.appendln("    val $id: String")
+            } else {
+                // We need a method rather than just a val
+                stringBuilder.appendln("    ${FileHelper.generateParameterizedStringMethodName(id, paramNames)}")
+            }
         }
 
         stringBuilder.appendln("}")
