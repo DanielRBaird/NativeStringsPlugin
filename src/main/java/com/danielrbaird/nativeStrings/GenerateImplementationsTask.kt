@@ -35,6 +35,7 @@ open class GenerateImplementationsTask : DefaultTask() {
         return project.file(inputFolder!!)
     }
 
+    @ExperimentalStdlibApi
     @TaskAction
     fun execute() {
         val inputFolder = getInputFolder()
@@ -76,16 +77,16 @@ open class GenerateImplementationsTask : DefaultTask() {
             stringBuilder.appendln("internal class ${localeFile.name}Strings : Strings {")
 
             for (stringObject in json) {
-                val id = stringObject["id"]
-                val translation = stringObject["translation"]
+                val id = stringObject[FileHelper.idKey] as String
+                val translation = stringObject[FileHelper.translationKey] as String
                 unusedKeys.remove(id)
-                stringBuilder.appendln("    override val $id: String by lazy { \"$translation\" }")
+                addMethodOrPropertyFor(id, translation, stringBuilder)
             }
 
             // If there are strings in the default file that don't exist in this one, we don't want to break things by not
             // having the implementation complete, so we just need to have an empty string.
             for (unusedKey in unusedKeys) {
-                stringBuilder.appendln("    override val ${unusedKey}: String by lazy { \"\" }")
+                addMethodOrPropertyFor(unusedKey, "", stringBuilder)
             }
 
             stringBuilder.appendln("}")
@@ -93,5 +94,21 @@ open class GenerateImplementationsTask : DefaultTask() {
         }
 
         implFile.writeText(stringBuilder.toString())
+    }
+
+    @ExperimentalStdlibApi
+    fun addMethodOrPropertyFor(id: String, translation: String, stringBuilder: StringBuilder) {
+        val paramRanges = FileHelper.findParamRanges(translation)
+
+        if (paramRanges.isEmpty()) {
+            // If we have no parameters we are using a lazy val.
+            stringBuilder.appendln("    override val $id: String by lazy { \"$translation\" }")
+        } else {
+            val paramNames = FileHelper.findParamNames(translation, paramRanges)
+            // In the case that we have parameters we are generating the implementation of a method.
+            stringBuilder.appendln("    ${FileHelper.generateParameterizedStringMethodName(id, paramNames)} {")
+            stringBuilder.appendln("        return \"${FileHelper.replaceParameterRangesWithKotlinParams(translation, paramRanges, paramNames)}\"")
+            stringBuilder.appendln("    }")
+        }
     }
 }
