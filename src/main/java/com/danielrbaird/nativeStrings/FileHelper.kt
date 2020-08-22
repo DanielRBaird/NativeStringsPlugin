@@ -12,6 +12,9 @@ internal object FileHelper {
     const val interfaceFileName = "Strings.kt"
     const val enumFileName = "Locales.kt"
 
+    const val idKey = "id"
+    const val translationKey = "translation"
+
     internal fun getLocalesFile(directory: File): File {
         return File(directory, localesFileName)
     }

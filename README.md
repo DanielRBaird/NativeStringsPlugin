@@ -29,6 +29,8 @@ You wil also need to create your primary strings file. Example:
 ```
 Right now this is the only supported format, where each entry has an `id` and a `translation`. In code, `id` becomes the name of the property that you access.
 
+It is following this format here: https://help.phrase.com/help/go-i18n-json, but it lacks full support for the spec.
+
 Once you have defined your files, you can apply the plugin like so:
 ```kotlin
 apply<NativeStrings>()

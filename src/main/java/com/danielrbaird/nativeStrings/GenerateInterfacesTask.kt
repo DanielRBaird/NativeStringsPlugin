@@ -51,12 +51,59 @@ open class GenerateInterfacesTask : DefaultTask() {
 
         // This dictionary will contain a map of all of the ids, and the translation for the default language.
         for (stringObject in json) {
-            val id = stringObject["id"] as String
-            stringBuilder.appendln("    val $id: String")
+            // TODO: At this point we don't handle pluralization, so it is expected that the translation is just a string.
+            // this is something we need to support eventually.
+
+            val id = stringObject[FileHelper.idKey] as String
+            val translation = stringObject[FileHelper.translationKey] as String
+            val paramNames = findParamNames(translation)
+
+            if (paramNames.isEmpty()) {
+                stringBuilder.appendln("    val $id: String")
+            } else {
+                // We need a method rather than just a val
+                stringBuilder.append("    fun $id(")
+                paramNames.forEachIndexed { index, parameter ->
+                    stringBuilder.append("$parameter: String")
+                    if (index != paramNames.lastIndex) {
+                        stringBuilder.append(", ")
+                    } else {
+                        stringBuilder.appendln("): String")
+                    }
+                }
+            }
         }
 
         stringBuilder.appendln("}")
 
         outputFile.writeText(stringBuilder.toString())
+    }
+
+    // This will find and extract and parameter names in the translation.
+    private fun findParamNames(translation: String): List<String> {
+        val params = mutableListOf<String>()
+        var lastChar: Char? = null
+        var readingParam = false
+        var paramStart = 0
+        translation.forEachIndexed { index, c ->
+            // If we find two in a row then we are looking at a param.
+            if (c == '{' && lastChar == '{') {
+                readingParam = true
+
+                // We are skipping the period at the beginning of the param.
+                paramStart = index + 2
+            }
+
+            if (readingParam && c == '}' && lastChar == '}') {
+                readingParam = false
+
+                // Now that we have found a param, read the string into the list.
+                params.add(translation.substring(IntRange(paramStart, index - 2)))
+            }
+
+            lastChar = c
+        }
+
+        return params
     }
 }
