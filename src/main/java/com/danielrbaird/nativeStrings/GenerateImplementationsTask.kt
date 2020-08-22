@@ -90,7 +90,7 @@ open class GenerateImplementationsTask : DefaultTask() {
             // having the implementation complete, so we just need to use the default translation.
             for (unusedKey in unusedKeys) {
                 // Use the default language translation to pull out the params.
-                val defaultLanguageObject = json.find { it[FileHelper.idKey] as String == unusedKey }!!
+                val defaultLanguageObject = defaultTranslationJson.find { it[FileHelper.idKey] as String == unusedKey }!!
                 val translation = defaultLanguageObject[FileHelper.translationKey] as String
                 addMethodOrPropertyFor(unusedKey, translation, stringBuilder)
             }

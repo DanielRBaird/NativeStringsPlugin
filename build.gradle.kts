@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "com.danielrbaird.nativeStrings"
-version = "1.0.13-SNAPSHOT"
+version = "1.0.15-SNAPSHOT"
 
 plugins {
     `java-gradle-plugin`
