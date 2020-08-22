@@ -64,6 +64,9 @@ open class GenerateImplementationsTask : DefaultTask() {
 
         stringBuilder.appendln("package $packageName\n")
 
+
+        val defaultTranslationJson: ArrayList<Map<String, Any>> = JsonSlurper().parseText(defaultLanguageFile.readText()) as ArrayList<Map<String, Any>>
+
         for (localeFile in localeFiles) {
             val unusedKeys = allKeys.toMutableSet()
 
@@ -84,9 +87,12 @@ open class GenerateImplementationsTask : DefaultTask() {
             }
 
             // If there are strings in the default file that don't exist in this one, we don't want to break things by not
-            // having the implementation complete, so we just need to have an empty string.
+            // having the implementation complete, so we just need to use the default translation.
             for (unusedKey in unusedKeys) {
-                addMethodOrPropertyFor(unusedKey, "", stringBuilder)
+                // Use the default language translation to pull out the params.
+                val defaultLanguageObject = json.find { it[FileHelper.idKey] as String == unusedKey }!!
+                val translation = defaultLanguageObject[FileHelper.translationKey] as String
+                addMethodOrPropertyFor(unusedKey, translation, stringBuilder)
             }
 
             stringBuilder.appendln("}")
@@ -106,7 +112,7 @@ open class GenerateImplementationsTask : DefaultTask() {
         } else {
             val paramNames = FileHelper.findParamNames(translation, paramRanges)
             // In the case that we have parameters we are generating the implementation of a method.
-            stringBuilder.appendln("    ${FileHelper.generateParameterizedStringMethodName(id, paramNames)} {")
+            stringBuilder.appendln("    override ${FileHelper.generateParameterizedStringMethodName(id, paramNames)} {")
             stringBuilder.appendln("        return \"${FileHelper.replaceParameterRangesWithKotlinParams(translation, paramRanges, paramNames)}\"")
             stringBuilder.appendln("    }")
         }

@@ -141,7 +141,7 @@ internal object FileHelper {
             if (index != paramNames.lastIndex) {
                 stringBuilder.append(", ")
             } else {
-                stringBuilder.appendln("): String")
+                stringBuilder.append("): String")
             }
         }
 
