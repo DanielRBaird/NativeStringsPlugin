@@ -40,7 +40,7 @@ Once you have defined your files, you can apply the plugin like so:
 
 // Pull in the dependency
 plugins {
-  id("com.danielrbaird.nativeStrings") version "1.0.12-SNAPSHOT"
+  id("com.danielrbaird.nativeStrings") version "1.0.15-SNAPSHOT"
 }
 
 // Apply the plugin
