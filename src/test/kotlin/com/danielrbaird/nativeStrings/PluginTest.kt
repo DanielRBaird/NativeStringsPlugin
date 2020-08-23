@@ -55,7 +55,7 @@ class PluginTest {
     }
 
     @Test
-    public fun attemptToBuildEnums() {
+     fun `locales enum is generated correctly`() {
         // We need to actually create the input folder and set the proper files in it.
         val testLocalesText = "En\nFr"
         val stringsEnJsonText = """
@@ -104,5 +104,48 @@ class PluginTest {
         val enumFile = File(outputFolder, FileHelper.enumFileName)
         assert(enumFile.exists()) { "Enum file was not created" }
         assert(enumFile.readText() == expectedOutputText) { enumFile.readText() }
+    }
+
+    @Test
+    fun `strings interface is generated correctly`() {
+        // We need to actually create the input folder and set the proper files in it.
+        val testLocalesText = "En\nFr"
+        val stringsEnJsonText = """
+            [
+              {
+                "id": "test_string",
+                "translation": "test string"
+              },
+              {
+                "id": "param_test",
+                "translation": "param test {{.param}}!"
+              }
+            ]""".trimIndent()
+
+        val inputFolder = testProjectDir.newFolder(inputFolderName)
+        val outputFolder = testProjectDir.newFolder(outputFolderName)
+
+        val testLocalesFile = File(inputFolder, FileHelper.localesFileName)
+        testLocalesFile.writeText(testLocalesText)
+
+        val testJsonFile = FileHelper.getDefaultStringsFile(inputFolder)
+        testJsonFile.writeText(stringsEnJsonText)
+
+        // Run the task to generate the locales enum.
+        val result = gradle(arguments = mutableListOf("nativeStringsGenerateInterface"))
+        assert(result.task(":nativeStringsGenerateInterface")?.outcome == SUCCESS)
+
+        val expectedOutputText = """
+        package com.daniel.test
+
+        internal interface Strings {
+            val test_string: String
+            fun param_test(param: String): String
+        }
+        """.trimIndent()
+
+        val interfaceFile = File(outputFolder, FileHelper.interfaceFileName)
+        assert(interfaceFile.exists()) { "Interface file was not created" }
+        assert(interfaceFile.readText() == expectedOutputText) { interfaceFile.readText() }
     }
 }

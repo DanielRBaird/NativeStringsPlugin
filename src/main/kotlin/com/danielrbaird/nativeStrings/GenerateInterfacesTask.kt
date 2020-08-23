@@ -66,7 +66,7 @@ open class GenerateInterfacesTask : DefaultTask() {
             }
         }
 
-        stringBuilder.appendln("}")
+        stringBuilder.append("}")
 
         outputFile.writeText(stringBuilder.toString())
     }
