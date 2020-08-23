@@ -14,6 +14,8 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib", "1.4.0"))
+    testCompile(gradleTestKit())
+    testCompile("junit:junit:4+")
 }
 
 // NativeStrings plugin configuration.
