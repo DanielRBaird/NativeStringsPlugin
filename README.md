@@ -12,11 +12,10 @@ You must have two different files. A Locales file, and a json file with your str
 
 The locales file is a simple txt file with a language code/name on each line, example:
 ```
-Default
+En
 Fr
 Gr
 ```
-I just named my english file `Default` because it is where I will be entering my strings that need to be translated. All of the other files will be created based on this one. 
 
 You wil also need to create your primary strings file. Example:
 ```json
@@ -40,7 +39,7 @@ Once you have defined your files, you can apply the plugin like so:
 
 // Pull in the dependency
 plugins {
-  id("com.danielrbaird.nativeStrings") version "1.0.15-SNAPSHOT"
+  id("com.danielrbaird.nativeStrings") version "1.0.16-SNAPSHOT"
 }
 
 // Apply the plugin

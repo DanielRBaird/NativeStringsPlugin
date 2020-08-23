@@ -1,13 +1,24 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 group = "com.danielrbaird.nativeStrings"
-version = "1.0.15-SNAPSHOT"
+version = "1.0.16-SNAPSHOT"
+
+repositories {
+    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
+    mavenCentral()
+}
 
 plugins {
-    `java-gradle-plugin`
-    kotlin("jvm") version "1.4.0-rc"
+    id("java-gradle-plugin")
+    kotlin("jvm") version "1.4.0"
     id("com.gradle.plugin-publish") version "0.12.0"
 }
+
+dependencies {
+    implementation(kotlin("stdlib", "1.4.0"))
+    testCompile(gradleTestKit())
+    testCompile("junit:junit:4+")
+}
+
+// NativeStrings plugin configuration.
 
 pluginBundle {
     website = "https://github.com/DanielRBaird/NativeStringsPlugin"
@@ -24,22 +35,4 @@ gradlePlugin {
             implementationClass = "com.danielrbaird.nativeStrings.NativeStrings"
         }
     }
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-
-repositories {
-    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
-    mavenCentral()
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
 }

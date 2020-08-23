@@ -42,6 +42,8 @@ open class GenerateEnumTask : DefaultTask() {
         val locales = FileHelper.getLocales(localesFile)
 
         val outputFile = File(outputDir, FileHelper.enumFileName)
+        println("Generating Locales enum at ${outputFile.path}")
+
         val stringBuilder = kotlin.text.StringBuilder()
 
         stringBuilder.appendln("package $packageName\n")
@@ -70,7 +72,7 @@ open class GenerateEnumTask : DefaultTask() {
         stringBuilder.appendln("            }") // Close the when
         stringBuilder.appendln("        }") // Close the method
         stringBuilder.appendln("    }") // Close the companion object
-        stringBuilder.appendln("}") // Close the class
+        stringBuilder.append("}") // Close the class
 
         // Write this out to a file.
         outputFile.writeText(stringBuilder.toString())
