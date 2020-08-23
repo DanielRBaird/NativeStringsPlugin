@@ -12,6 +12,12 @@ plugins {
     id("com.gradle.plugin-publish") version "0.12.0"
 }
 
+dependencies {
+    implementation(kotlin("stdlib", "1.4.0"))
+}
+
+// NativeStrings plugin configuration.
+
 pluginBundle {
     website = "https://github.com/DanielRBaird/NativeStringsPlugin"
     vcsUrl = "https://github.com/DanielRBaird/NativeStringsPlugin"
@@ -27,12 +33,4 @@ gradlePlugin {
             implementationClass = "com.danielrbaird.nativeStrings.NativeStrings"
         }
     }
-}
-
-dependencies {
-    implementation(kotlin("stdlib", "1.4.0"))
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
