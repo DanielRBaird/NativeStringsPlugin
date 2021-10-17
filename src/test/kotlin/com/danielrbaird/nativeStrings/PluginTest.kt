@@ -16,7 +16,7 @@ class PluginTest {
     private lateinit var buildGradle: File
 
     @Before
-    public fun setup() {
+    fun setup() {
         testProjectDir = TemporaryFolder()
         testProjectDir.create()
         // Prepare build.gradle
@@ -55,7 +55,7 @@ class PluginTest {
     }
 
     @Test
-     fun `locales enum is generated correctly`() {
+    fun `locales enum is generated correctly`() {
         // We need to actually create the input folder and set the proper files in it.
         val testLocalesText = "En\nFr"
         val stringsEnJsonText = """
