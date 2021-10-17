@@ -2,14 +2,13 @@ group = "com.danielrbaird.nativeStrings"
 version = "1.0.16-SNAPSHOT"
 
 repositories {
-    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
     mavenCentral()
 }
 
 plugins {
     id("java-gradle-plugin")
-    kotlin("jvm") version "1.4.0"
-    id("com.gradle.plugin-publish") version "0.12.0"
+    kotlin("jvm") version "1.5.31"
+    id("com.gradle.plugin-publish") version "0.16.0"
 }
 
 dependencies {
